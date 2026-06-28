@@ -8,3 +8,4 @@ from .sessions import compute_session_features
 from .candle_patterns import compute_candle_features
 from .confluence import compute_confluence_score
 from .feature_registry import generate_all_features, save_feature_metadata, FEATURE_METADATA
+from .selection import remove_highly_correlated_features
