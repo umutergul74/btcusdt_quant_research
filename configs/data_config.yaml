@@ -12,7 +12,7 @@ higher_timeframes:
   - 1d
 start_date: "2020-01-01"
 end_date: null
-debug_mode: true
-full_mode: false
+debug_mode: false
+full_mode: true
 max_rows_debug: 200000
 force_rebuild: false
