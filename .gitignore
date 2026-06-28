@@ -17,10 +17,11 @@ models/checkpoints/
 models/trained_models/
 models/calibration/
 models/feature_importance/
-reports/**/*.html
-reports/**/*.png
-reports/**/*.csv
-reports/**/*.json
+# Allow all files inside reports directory
+!reports/**/
+!reports/**/*
+
+# Exclude other data and model files
 *.parquet
 *.pkl
 *.joblib
