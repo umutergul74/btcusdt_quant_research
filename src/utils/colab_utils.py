@@ -1,10 +1,38 @@
 import os
-import shutil
+import random
 import zipfile
+import shutil
+import numpy as np
 import pandas as pd
 from utils.logging_utils import setup_logger
 
 logger = setup_logger("colab_utils")
+
+def set_seed(seed: int = 42):
+    """Sets random seed for reproducibility."""
+    random.seed(seed)
+    np.random.seed(seed)
+    try:
+        import torch
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+    except ImportError:
+        pass
+
+def check_gpu() -> bool:
+    """Checks if GPU is available in the Colab environment."""
+    try:
+        import torch
+        gpu_available = torch.cuda.is_available()
+        if gpu_available:
+            print(f"GPU Available: {torch.cuda.get_device_name(0)}")
+        else:
+            print("GPU Not Available. Running on CPU.")
+        return gpu_available
+    except ImportError:
+        print("PyTorch not installed. GPU check skipped.")
+        return False
 
 def generate_pipeline_summary_and_zip(project_root: str, symbol: str):
     """Aggregates all validation and backtesting reports into a single text summary and zips the reports directory."""
