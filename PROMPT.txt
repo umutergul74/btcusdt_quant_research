@@ -1,0 +1,2044 @@
+You are a senior Quant Researcher, Financial Machine Learning Engineer, Algorithmic Trading Architect, Market Microstructure Analyst, professional ICT/SMC/Price Action researcher, and senior Python/Colab systems engineer.
+
+I want to build a serious BTCUSDT trading research and machine learning system entirely inside Google Colab and Google Drive.
+
+This project must NOT be a simple RSI/MACD/EMA trading bot. It must be a professional-grade research framework that learns from advanced market structure, price action, ICT, Smart Money Concepts, order flow, liquidity behavior, volatility regimes, session behavior, liquidation proxies, and statistical validation.
+
+The final goal is to train models on BTCUSDT data that can behave like a disciplined professional trader: identify market context, detect high-quality setups, avoid bad trades, estimate expected value, manage risk, and explain every decision.
+
+This is not a get-rich-quick bot. Do not promise profitability. Build a robust, scientific, testable, leakage-safe, reproducible, restart-safe, and extensible trading research system.
+
+Everything must run in Google Colab. There will be no local execution.
+
+Before implementing anything, create and strictly follow the project rules in:
+
+```text
+/content/drive/MyDrive/btcusdt_quant_research/SKILL.md
+```
+
+Treat `SKILL.md` as the project's engineering and research constitution. Do not implement any notebook, model, feature, label, backtest, report, or GitHub publishing step that violates it.
+
+The complete final project must also be prepared and pushed to this GitHub repository:
+
+```text
+https://github.com/umutergul74/TradeBot.git
+```
+
+Do not push secrets, API keys, GitHub tokens, Binance credentials, Google credentials, raw datasets, large processed datasets, large feature stores, large trained models, checkpoints, Optuna databases, private logs, or large generated reports to GitHub.
+
+GitHub must contain clean, reproducible, professional code, notebooks, configs, documentation, and project structure only.
+
+---
+
+# 1. Critical Environment Requirement
+
+Design the whole project for:
+
+* Google Colab
+* Google Drive persistent storage
+* Notebook-based workflow
+* Restart-safe execution
+* Checkpointed long training jobs
+* No local machine assumptions
+* No Docker requirement
+* No local terminal requirement
+* No live order execution in the first version
+* Safe GitHub publishing at the end
+
+Use this root path:
+
+```python
+PROJECT_ROOT = "/content/drive/MyDrive/btcusdt_quant_research"
+```
+
+Every notebook must mount Google Drive at the beginning:
+
+```python
+from google.colab import drive
+drive.mount("/content/drive")
+```
+
+Then:
+
+```python
+import sys
+PROJECT_ROOT = "/content/drive/MyDrive/btcusdt_quant_research"
+sys.path.append(f"{PROJECT_ROOT}/src")
+```
+
+All data, processed datasets, feature stores, models, checkpoints, logs, reports, notebooks, configs, and source code must be saved under `PROJECT_ROOT`.
+
+Every expensive step must be restart-safe. If a Colab runtime disconnects, the workflow must be able to resume from Google Drive.
+
+---
+
+# 2. Main Objective
+
+Build a Colab-based BTCUSDT quant trading research system that can produce:
+
+## Market Regime
+
+* trending
+* ranging
+* high volatility
+* low volatility
+* compression
+* expansion
+* accumulation
+* distribution
+* manipulation phase
+* post-liquidation phase
+* high leverage pressure
+* choppy/no-trade regime
+
+## Higher-Timeframe Bias
+
+* bullish
+* bearish
+* neutral
+
+## Setup Classification
+
+* liquidity sweep reversal
+* liquidity sweep continuation
+* FVG continuation
+* FVG mitigation reaction
+* inverse FVG setup
+* order block reaction
+* breaker block retest
+* mitigation block reaction
+* rejection block reaction
+* BOS continuation
+* CHOCH reversal
+* MSS continuation
+* range deviation and reclaim
+* session high/low sweep
+* CVD divergence reversal
+* liquidation sweep reversal
+* volatility expansion breakout
+* failed breakout
+* no-trade
+
+## Trade Decision
+
+* long
+* short
+* no-trade
+
+## Trade Plan
+
+* entry zone
+* invalidation level
+* stop-loss
+* take-profit 1
+* take-profit 2
+* take-profit 3
+* expected holding time
+* expected return
+* expected drawdown
+* maximum adverse excursion estimate
+* maximum favorable excursion estimate
+* risk/reward
+* probability of success
+* expected value after costs
+* confidence score
+* position size recommendation
+* human-readable explanation
+
+---
+
+# 3. Very Important Safety Rule
+
+Do not implement real live trading or automatic order execution in the first version.
+
+The system must only support:
+
+1. Data research
+2. Feature engineering
+3. Labeling
+4. Model training
+5. Walk-forward validation
+6. Backtesting
+7. Paper-trading style simulation
+8. Reporting
+9. Dashboarding
+10. GitHub publishing of clean project code
+
+If any live trading module is ever added later, it must be disabled by default and isolated behind explicit safety flags. For now, do not build live execution.
+
+---
+
+# 4. Colab Notebook Architecture
+
+Create a notebook-first system.
+
+Generate the following notebooks under:
+
+```text
+/content/drive/MyDrive/btcusdt_quant_research/notebooks/
+```
+
+Required notebooks:
+
+```text
+00_colab_setup.ipynb
+01_data_download_binance.ipynb
+02_data_cleaning_and_resampling.ipynb
+03_feature_engineering_market_structure.ipynb
+04_feature_engineering_liquidity_ict_smc.ipynb
+05_feature_engineering_orderflow_volatility_sessions.ipynb
+06_labeling_and_event_generation.ipynb
+07_model_training_baselines_and_ml.ipynb
+08_walk_forward_validation.ipynb
+09_backtesting_and_risk_management.ipynb
+10_explainability_and_trade_journal.ipynb
+11_dashboard_and_visual_analysis.ipynb
+12_master_pipeline_runner.ipynb
+13_github_publish.ipynb
+```
+
+Each notebook must:
+
+* Mount Google Drive
+* Define `PROJECT_ROOT`
+* Load configuration from Drive
+* Import reusable modules from `src/`
+* Save intermediate outputs to Drive
+* Be restart-safe
+* Avoid recomputing expensive steps if output files already exist, unless `FORCE_REBUILD=True`
+* Include clear markdown explanations
+* Include validation checks
+* Include visual diagnostics where useful
+* Save outputs as Parquet, CSV, JSON, HTML, PNG, or joblib/torch checkpoints where appropriate
+* End with a summary of generated artifacts and next steps
+
+Reusable Python modules must be created inside:
+
+```text
+/content/drive/MyDrive/btcusdt_quant_research/src/
+```
+
+Notebook cells should orchestrate workflows. Core logic must live in reusable modules.
+
+---
+
+# 5. Drive Folder Structure
+
+Create and maintain this structure:
+
+```text
+btcusdt_quant_research/
+  SKILL.md
+  README.md
+  requirements.txt
+  pyproject.toml
+  .gitignore
+  .env.example
+
+  configs/
+    data_config.yaml
+    feature_config.yaml
+    labeling_config.yaml
+    model_config.yaml
+    validation_config.yaml
+    backtest_config.yaml
+    risk_config.yaml
+    github_config.yaml
+
+  notebooks/
+    00_colab_setup.ipynb
+    01_data_download_binance.ipynb
+    02_data_cleaning_and_resampling.ipynb
+    03_feature_engineering_market_structure.ipynb
+    04_feature_engineering_liquidity_ict_smc.ipynb
+    05_feature_engineering_orderflow_volatility_sessions.ipynb
+    06_labeling_and_event_generation.ipynb
+    07_model_training_baselines_and_ml.ipynb
+    08_walk_forward_validation.ipynb
+    09_backtesting_and_risk_management.ipynb
+    10_explainability_and_trade_journal.ipynb
+    11_dashboard_and_visual_analysis.ipynb
+    12_master_pipeline_runner.ipynb
+    13_github_publish.ipynb
+
+  src/
+    data/
+      binance_downloader.py
+      ccxt_downloader.py
+      futures_metrics.py
+      data_cleaning.py
+      resampling.py
+      parquet_store.py
+
+    features/
+      market_structure.py
+      liquidity.py
+      ict_smc.py
+      fvg.py
+      order_blocks.py
+      order_flow.py
+      volatility.py
+      sessions.py
+      candle_patterns.py
+      confluence.py
+      feature_registry.py
+
+    labeling/
+      forward_returns.py
+      triple_barrier.py
+      event_labeling.py
+      meta_labeling.py
+
+    models/
+      baselines.py
+      tabular_models.py
+      sequence_models.py
+      transformer_models.py
+      calibration.py
+      ensemble.py
+      model_registry.py
+
+    validation/
+      time_splits.py
+      purged_cv.py
+      walk_forward.py
+      leakage_checks.py
+      robustness.py
+
+    backtesting/
+      execution.py
+      costs.py
+      portfolio.py
+      risk_engine.py
+      metrics.py
+      trade_journal.py
+
+    risk/
+      position_sizing.py
+      risk_limits.py
+      drawdown_control.py
+
+    explainability/
+      shap_tools.py
+      signal_explainer.py
+      report_generator.py
+
+    visualization/
+      plotly_charts.py
+      setup_charts.py
+      dashboard.py
+
+    utils/
+      config.py
+      logging_utils.py
+      io_utils.py
+      time_utils.py
+      colab_utils.py
+      github_utils.py
+
+  data/
+    raw/
+      klines/
+      trades/
+      agg_trades/
+      futures_metrics/
+      orderbook/
+    processed/
+    feature_store/
+    labels/
+    events/
+
+  models/
+    checkpoints/
+    trained_models/
+    calibration/
+    feature_importance/
+
+  reports/
+    data_quality/
+    feature_analysis/
+    labeling/
+    validation/
+    backtests/
+    explainability/
+    dashboards/
+    github/
+
+  logs/
+  cache/
+```
+
+Use `.gitkeep` files where needed so empty folders are preserved in GitHub.
+
+---
+
+# 6. Colab Setup Notebook
+
+In `00_colab_setup.ipynb`, create cells for:
+
+1. Mounting Google Drive
+2. Creating the folder structure
+3. Creating `SKILL.md`
+4. Installing required packages
+5. Writing configuration YAML files
+6. Creating reusable Python module skeletons
+7. Creating `.gitignore`
+8. Creating `.env.example`
+9. Creating `README.md` skeleton
+10. Testing imports
+11. Printing environment information
+12. Checking GPU availability
+13. Creating a global random seed function
+14. Setting `FORCE_REBUILD=False`
+
+Use packages appropriate for Colab:
+
+```python
+!pip install -q pandas numpy scipy scikit-learn pyarrow fastparquet polars numba tqdm pyyaml requests ccxt plotly vectorbt optuna lightgbm xgboost catboost shap joblib ta
+```
+
+Optional deep learning packages:
+
+```python
+!pip install -q torch pytorch-lightning
+```
+
+Only use deep learning after the tabular ML pipeline is stable.
+
+---
+
+# 7. Data Sources
+
+Build a robust data pipeline for BTCUSDT.
+
+Default symbol:
+
+```text
+BTCUSDT
+```
+
+Default market:
+
+```text
+Binance USD-M Futures
+```
+
+Fallback:
+
+```text
+Binance Spot
+```
+
+Required OHLCV timeframes:
+
+* 1m
+* 3m
+* 5m
+* 15m
+* 30m
+* 1h
+* 4h
+* 1d
+
+Main modeling timeframes:
+
+* Primary execution timeframe: 5m
+* Secondary execution/context timeframe: 15m
+* Lower timeframe/order flow: 1m and trades/aggTrades
+* Higher timeframe context: 1h, 4h, 1d
+
+Download and persist:
+
+## OHLCV / Klines
+
+* timestamp
+* open
+* high
+* low
+* close
+* volume
+* quote volume
+* number of trades
+* taker buy base volume
+* taker buy quote volume
+* taker sell volume if derivable
+
+## Trade / Aggregate Trade Data
+
+If available and feasible:
+
+* trade timestamp
+* price
+* quantity
+* buyer/seller aggressor flag if available
+* taker buy volume
+* taker sell volume
+* delta
+* cumulative volume delta
+
+## Futures Metrics
+
+If available:
+
+* funding rate
+* open interest
+* long/short ratio
+* top trader long/short ratio
+* taker buy/sell volume
+* mark price
+* liquidation data if accessible
+* liquidation proxy if direct data is unavailable
+
+## Optional External Context
+
+Make these optional and modular:
+
+* ETHUSDT correlation
+* BTC dominance
+* S&P 500 proxy
+* Nasdaq proxy
+* DXY proxy
+* gold proxy
+* VIX proxy
+* macro risk-on/risk-off regime
+
+Do not block the system if optional data is unavailable.
+
+---
+
+# 8. Data Pipeline Requirements
+
+The data download notebooks must:
+
+* Support incremental downloads
+* Avoid downloading already existing data
+* Save raw data as Parquet
+* Save one file per symbol/timeframe/source/month or year when useful
+* Handle Binance rate limits responsibly
+* Retry failed requests with exponential backoff
+* Validate missing timestamps
+* Detect duplicate rows
+* Sort by timestamp
+* Convert timestamps to UTC
+* Keep timestamps consistently UTC
+* Log every download
+* Create data quality reports
+
+Data quality checks:
+
+* Missing candles
+* Duplicate candles
+* Zero-volume candles
+* Invalid OHLC relationships
+* Extreme outliers
+* Timestamp gaps
+* Unexpected timezone shifts
+* Suspicious volume spikes
+* Incomplete last candle
+* Data coverage by timeframe
+
+Generate reports under:
+
+```text
+reports/data_quality/
+```
+
+---
+
+# 9. Absolute Rule: No Data Leakage
+
+This is the most important requirement.
+
+Every feature must be computed using only information that would have been available at the decision timestamp.
+
+Forbidden:
+
+* Using future candles to create past features
+* Using future-confirmed swing points as real-time signals
+* Using same-candle close for an entry that supposedly happened before that close
+* Fitting scalers on the full dataset
+* Tuning thresholds on the final test set
+* Selecting features using validation/test information incorrectly
+* Using labels or future returns in feature generation
+* Computing rolling features with centered windows
+* Backtesting with impossible intrabar assumptions
+* Using ZigZag/fractals in a future-leaking way
+* Resampling higher timeframe data and forward-filling unfinished higher timeframe candles
+* Using future FVG/order block/sweep information in past decisions
+
+Required:
+
+* Features must be point-in-time safe
+* Signal generated after candle close
+* Trade entry no earlier than next candle open or realistic simulated execution price
+* Scalers fit only on train data
+* Validation/test transformed only with train-fitted scalers
+* Chronological splits
+* Walk-forward validation
+* Untouched final test set
+* Explicit leakage tests
+
+Implement leakage checks in:
+
+```text
+src/validation/leakage_checks.py
+```
+
+Every major notebook must include a leakage-safety section.
+
+---
+
+# 10. Multi-Timeframe Safety
+
+The system must combine:
+
+* 1m microstructure/order-flow features
+* 5m execution features
+* 15m execution/context features
+* 1h bias features
+* 4h higher-timeframe structure
+* 1d macro structure
+
+Higher timeframe features must only become available after the higher timeframe candle has closed.
+
+Example:
+
+A 1h candle covering 09:00–10:00 can only be used after 10:00. Do not leak its high/low/close into earlier 5m candles before the 1h candle closes.
+
+Implement safe multi-timeframe alignment.
+
+---
+
+# 11. Feature Engineering Philosophy
+
+Build many features, but do not blindly trust them.
+
+The system must:
+
+* Create a large feature library
+* Group features by family
+* Save feature metadata
+* Track feature availability timestamp
+* Remove leaky or unstable features
+* Detect highly correlated feature clusters
+* Test feature importance stability
+* Compare gross edge and net edge after fees
+* Report which features survive walk-forward validation
+
+Each feature must have metadata:
+
+* name
+* family
+* description
+* required input data
+* timeframe
+* availability timestamp
+* parameters
+* leakage risk level
+* missing-value behavior
+* expected interpretation
+
+Save feature metadata to:
+
+```text
+data/feature_store/feature_metadata.json
+```
+
+---
+
+# 12. Feature Families
+
+Implement professional, configurable, mathematically defined features.
+
+## 12.1 Market Structure
+
+Implement:
+
+* swing high
+* swing low
+* real-time swing high candidate
+* real-time swing low candidate
+* confirmed swing high
+* confirmed swing low
+* higher high
+* higher low
+* lower high
+* lower low
+* internal structure
+* external structure
+* Break of Structure, BOS
+* Change of Character, CHOCH
+* Market Structure Shift, MSS
+* trend leg
+* impulse leg
+* corrective leg
+* range high
+* range low
+* dealing range
+* premium zone
+* discount zone
+* equilibrium
+* distance from range high
+* distance from range low
+* distance from equilibrium
+* multi-timeframe structure alignment
+
+Real-time swing features and confirmed swing features must be separated.
+
+## 12.2 ICT / Smart Money Concepts
+
+Convert subjective concepts into strict, testable, configurable definitions:
+
+* Fair Value Gap, FVG
+* Inverse FVG
+* Balanced Price Range, BPR
+* Order Block
+* Breaker Block
+* Mitigation Block
+* Rejection Block
+* Liquidity Void
+* Displacement
+* Premium/Discount Array
+* Dealing Range
+* Optimal Trade Entry approximation
+* Market maker buy/sell model approximation
+* Accumulation/manipulation/distribution proxy
+* Judas swing proxy
+* Kill zone behavior adapted to BTC
+
+Do not use vague definitions like “looks like an order block.”
+
+## 12.3 Fair Value Gap
+
+Bullish FVG baseline:
+
+* Three-candle structure
+* Candle 1 high < Candle 3 low
+* Middle candle should preferably show displacement
+* Gap size normalized by ATR
+
+Bearish FVG baseline:
+
+* Candle 1 low > Candle 3 high
+* Middle candle should preferably show displacement
+
+For each FVG, compute:
+
+* direction
+* upper boundary
+* lower boundary
+* midpoint
+* size
+* ATR-normalized size
+* percent filled
+* fully filled flag
+* partially filled flag
+* unfilled age
+* mitigation timestamp
+* reaction after first touch
+* time to mitigation
+* displacement score at creation
+* volume at creation
+* CVD confirmation at creation
+* FVG inside premium or discount
+* FVG aligned with higher timeframe bias
+* inverse FVG conversion
+* overlap with order block
+* overlap with liquidity sweep
+
+## 12.4 Order Blocks
+
+Create multiple configurable definitions and compare them.
+
+Bullish order block candidate:
+
+* Last bearish candle before bullish displacement
+* Followed by BOS/MSS or strong impulse
+* Displacement candle body/range ratio exceeds threshold
+* Displacement size exceeds ATR threshold
+
+Bearish order block candidate:
+
+* Last bullish candle before bearish displacement
+* Followed by BOS/MSS or strong impulse
+
+For each OB, compute:
+
+* direction
+* high-low boundaries
+* open-close boundaries
+* midpoint
+* age
+* mitigation count
+* first mitigation reaction
+* invalidation flag
+* displacement strength after OB
+* volume inside OB
+* CVD behavior near OB
+* higher timeframe alignment
+* distance from current price
+* overlap with FVG
+* conversion to breaker block
+* success/failure after mitigation
+
+Test high-low and open-close definitions separately.
+
+## 12.5 Liquidity
+
+Implement liquidity pool logic:
+
+* equal highs
+* equal lows
+* relative equal highs with tolerance
+* relative equal lows with tolerance
+* previous day high
+* previous day low
+* previous week high
+* previous week low
+* previous month high
+* previous month low
+* session high
+* session low
+* Asia range high
+* Asia range low
+* London high
+* London low
+* New York high
+* New York low
+* buy-side liquidity
+* sell-side liquidity
+* liquidity sweep
+* liquidity grab
+* stop hunt
+* sweep and reclaim
+* failed breakout
+* range deviation
+* range reclaim
+* turtle soup style reversal approximation
+
+For each sweep, compute:
+
+* sweep direction
+* swept level type
+* wick depth
+* close reclaim flag
+* reclaim speed
+* post-sweep displacement
+* post-sweep FVG creation
+* post-sweep CVD divergence
+* post-sweep volume spike
+* time to reaction
+* maximum favorable excursion
+* maximum adverse excursion
+
+## 12.6 Displacement and Candle Quality
+
+Create:
+
+* candle body size
+* body/range ratio
+* wick/body ratio
+* upper wick ratio
+* lower wick ratio
+* ATR-normalized range
+* ATR-normalized body
+* close location value
+* volume percentile
+* volume spike
+* taker volume spike
+* consecutive directional candles
+* range expansion
+* volatility expansion
+* impulse score
+* correction score
+* exhaustion score
+* climax candle flag
+
+## 12.7 Order Flow and CVD
+
+Using trade, aggTrade, or taker data when available:
+
+* taker buy volume
+* taker sell volume
+* delta
+* cumulative volume delta
+* rolling CVD slope
+* CVD divergence
+* price higher high with CVD lower high
+* price lower low with CVD higher low
+* aggressive buyer imbalance
+* aggressive seller imbalance
+* absorption proxy
+* volume imbalance
+* trade count imbalance
+* large trade detection
+* VWAP
+* anchored VWAP
+* VWAP deviation
+* micro pullback confirmation
+* order flow confirmation score
+
+If full trade data is too large for Colab:
+
+* aggregate trades to 1m
+* save compressed Parquet
+* cache intermediate CVD calculations
+* avoid loading all raw trades into memory at once
+
+## 12.8 Order Book, Optional
+
+If order book snapshots are available:
+
+* bid/ask spread
+* top-of-book imbalance
+* depth imbalance
+* liquidity wall proxy
+* order book slope
+* depth change rate
+* book pressure score
+
+If order book data is unavailable, do not fail the project.
+
+## 12.9 Liquidation and Leverage
+
+If direct liquidation data is available:
+
+* long liquidation spike
+* short liquidation spike
+* liquidation cluster
+* liquidation imbalance
+* liquidation cascade proxy
+* post-liquidation reversal
+* post-liquidation continuation
+
+If direct data is unavailable, create proxies:
+
+* long wick + volume spike
+* aggressive delta spike
+* open interest change
+* funding extreme
+* rapid mean reversion
+* high volatility wick event
+* stop cascade proxy
+
+Futures metrics:
+
+* funding rate
+* funding percentile
+* funding extreme
+* open interest
+* open interest change
+* price up + OI up
+* price up + OI down
+* price down + OI up
+* price down + OI down
+* leverage pressure regime
+
+## 12.10 Session and Time
+
+BTC trades 24/7, but global liquidity still changes by time.
+
+Implement:
+
+* hour of day
+* day of week
+* weekend flag
+* Monday effect
+* Friday effect
+* daily open
+* weekly open
+* monthly open
+* Asia session
+* London session
+* New York session
+* London open
+* New York open
+* London/New York overlap
+* Asia range
+* London range
+* New York range
+* session high/low sweeps
+* kill zone approximation
+* time since daily open
+* time since weekly open
+
+Do not assume ICT kill zones work automatically on BTC. Test them statistically.
+
+## 12.11 Volatility and Regime
+
+Implement:
+
+* ATR
+* realized volatility
+* Parkinson volatility
+* Garman-Klass volatility if possible
+* rolling return volatility
+* volatility percentile
+* volatility regime
+* Bollinger bandwidth
+* compression score
+* expansion score
+* range efficiency
+* trend strength
+* choppiness index
+* Hurst exponent optional
+* ADX optional
+* volume volatility
+* regime clustering
+* hidden Markov model optional
+* k-means/GMM regime clustering optional
+
+Model and backtest performance must be reported separately by regime.
+
+## 12.12 Classical Technical Indicators as Context Only
+
+These are not the main strategy. Use them only as auxiliary features:
+
+* EMA slope
+* EMA distance
+* EMA stack
+* VWAP distance
+* RSI level
+* RSI divergence approximation
+* MACD histogram slope
+* Bollinger position
+* Bollinger squeeze
+* volume profile proxy
+* anchored VWAP
+* pivot deviation
+* Donchian channel position
+* rolling breakout strength
+
+---
+
+# 13. Labeling
+
+Create multiple labeling approaches and compare them.
+
+## 13.1 Forward Return Labels
+
+For horizons:
+
+* 3 bars
+* 5 bars
+* 10 bars
+* 20 bars
+* 50 bars
+
+Labels:
+
+* +1 long edge
+* -1 short edge
+* 0 no edge
+
+Thresholds must be volatility-adjusted.
+
+## 13.2 Triple Barrier Labeling
+
+For each event:
+
+* take-profit barrier
+* stop-loss barrier
+* time barrier
+
+Use dynamic barriers based on:
+
+* ATR
+* local swing invalidation
+* FVG size
+* OB invalidation
+* liquidity level distance
+* volatility regime
+
+Labels:
+
+* +1 if TP hit first
+* -1 if SL hit first
+* 0 if time barrier hit first
+
+## 13.3 Event-Based Labels
+
+Generate labels only after meaningful events:
+
+* liquidity sweep
+* FVG creation
+* FVG mitigation
+* order block mitigation
+* BOS
+* CHOCH
+* MSS
+* session high/low sweep
+* CVD divergence
+* liquidation proxy event
+* volatility expansion event
+
+## 13.4 Meta-Labeling
+
+Build a two-stage system:
+
+Stage 1:
+
+* Detect potential setup
+
+Stage 2:
+
+* Decide whether the setup should be traded
+
+Meta-model outputs:
+
+* trade
+* skip
+* confidence
+* position size multiplier
+
+Labels must never be used as features.
+
+---
+
+# 14. Models
+
+Start simple and robust before deep learning.
+
+## Required Baselines
+
+* random signal baseline
+* always long baseline
+* always short baseline
+* buy and hold
+* simple trend-following baseline
+* simple breakout baseline
+* simple mean reversion baseline
+
+## Main Tabular ML Models
+
+Train and compare:
+
+* Logistic Regression
+* Random Forest
+* Extra Trees
+* XGBoost
+* LightGBM
+* CatBoost
+* HistGradientBoosting
+* calibrated ensemble
+
+Use Optuna for hyperparameter tuning, but only inside walk-forward training windows.
+
+## Optional Sequence Models
+
+Only after tabular models are stable:
+
+* LSTM
+* GRU
+* Temporal CNN
+* Transformer encoder
+
+Sequence model inputs:
+
+* rolling windows of features
+* multi-timeframe context
+* event flags
+* regime embeddings optional
+
+Use PyTorch. Save checkpoints frequently to Google Drive.
+
+---
+
+# 15. Model Outputs
+
+The model should not only predict direction.
+
+It should output:
+
+* probability of long edge
+* probability of short edge
+* probability of no-trade
+* expected return
+* expected adverse excursion
+* expected favorable excursion
+* confidence score
+* suggested stop distance
+* suggested take-profit distance
+* expected holding time
+* setup type
+* regime-adjusted confidence
+* trade/no-trade decision
+
+Apply probability calibration:
+
+* Platt scaling
+* isotonic regression
+* calibration curve
+* Brier score
+
+---
+
+# 16. Feature Selection
+
+Because there will be many features, implement careful feature selection:
+
+* Remove constant features
+* Remove near-constant features
+* Remove features with excessive missing values
+* Remove obviously leaky features
+* Correlation clustering
+* Permutation importance
+* SHAP analysis
+* Walk-forward feature stability
+* Adversarial validation optional
+* Mutual information optional
+* Model-based feature selection
+
+Do not select features using the final test set.
+
+---
+
+# 17. Validation
+
+Do not use random train/test split.
+
+Implement:
+
+* chronological split
+* walk-forward validation
+* expanding window validation
+* rolling window validation
+* purged cross-validation
+* embargo period
+* untouched final test period
+
+Example structure:
+
+* Train: oldest 60%
+* Validation/walk-forward: next 20%
+* Final untouched test: newest 20%
+
+Make this configurable.
+
+For each fold, report:
+
+Classification metrics:
+
+* accuracy
+* balanced accuracy
+* precision long
+* precision short
+* recall long
+* recall short
+* F1
+* ROC AUC if applicable
+* PR AUC
+* Brier score
+* calibration error
+
+Trading metrics:
+
+* gross return
+* net return
+* average trade return
+* median trade return
+* profit factor
+* expectancy
+* Sharpe ratio
+* Sortino ratio
+* Calmar ratio
+* max drawdown
+* win rate
+* average win
+* average loss
+* payoff ratio
+* exposure time
+* turnover
+* fee impact
+* slippage impact
+* funding impact
+* long-only performance
+* short-only performance
+* setup-level performance
+* regime-level performance
+* session-level performance
+
+---
+
+# 18. Backtesting Engine
+
+Build a realistic backtesting system.
+
+Rules:
+
+* Signal is known only after candle close
+* Trade executes at next candle open or realistic execution price
+* Include fees
+* Include slippage
+* Include spread proxy
+* Include funding for futures
+* Include position sizing
+* Include max leverage limit
+* Include stop-loss
+* Include take-profit
+* Include time-based exit
+* Include no-trade threshold
+* Include one-position-at-a-time mode
+* Include optional pyramiding disabled by default
+* Conservative intrabar stop/TP handling
+* No look-ahead bias
+
+If both SL and TP are touched in the same candle, use the conservative assumption by default unless lower timeframe intrabar data is used.
+
+Backtest reports:
+
+* equity curve
+* drawdown curve
+* monthly returns
+* trade list
+* setup breakdown
+* regime breakdown
+* session breakdown
+* long/short breakdown
+* cost breakdown
+* distribution of trade returns
+* MFE/MAE analysis
+* holding time distribution
+* Monte Carlo reshuffling
+* parameter sensitivity
+* walk-forward stability
+
+Backtest only out-of-sample predictions.
+
+---
+
+# 19. Risk Management
+
+Implement a professional risk engine.
+
+Default settings:
+
+* Initial capital: configurable
+* Risk per trade: 0.5%
+* Max risk per trade: 1%
+* Max leverage: 1x initially
+* Daily max loss: configurable
+* Weekly max loss: configurable
+* Max drawdown stop: configurable
+* Max consecutive losses: configurable
+* No-trade after large loss: configurable
+* Reduce risk during drawdown
+* Reduce risk in high volatility
+* Reduce risk when confidence is low
+* Skip trade if expected value after fees is negative
+* Skip trade if risk/reward is below threshold
+
+Position sizing methods:
+
+* fixed fractional
+* volatility targeting
+* confidence-weighted sizing
+* capped Kelly fraction
+* regime-adjusted sizing
+
+Risk management must be part of the backtest, not added afterward.
+
+---
+
+# 20. Confluence Engine
+
+Do not trade from a single feature.
+
+Create a confluence system using:
+
+* higher timeframe bias
+* market structure
+* liquidity sweep
+* FVG
+* order block
+* CVD
+* volume
+* session
+* volatility regime
+* premium/discount
+* risk/reward
+* expected value
+* model confidence
+
+The confluence engine should produce:
+
+* confluence score
+* bullish components
+* bearish components
+* conflicting components
+* no-trade reason
+* explanation text
+
+Allow both:
+
+1. Rule-based confluence scoring
+2. ML-learned confluence scoring
+
+Compare both.
+
+---
+
+# 21. Explainability
+
+Every model decision must be explainable.
+
+For each trade, generate a human-readable explanation:
+
+```text
+Decision: LONG
+Confidence: 0.74
+Setup: Sell-side liquidity sweep + bullish FVG mitigation + bullish CVD divergence
+HTF Bias: Bullish
+Entry: 64120
+Stop: 63780
+TP1: 64800
+TP2: 65500
+Risk/Reward: 2.1
+Expected Value After Costs: Positive
+
+Reasoning:
+- Price swept the previous Asia low and reclaimed the range.
+- A bullish displacement candle created a 5m FVG.
+- Price returned into the FVG midpoint while still in discount.
+- CVD formed a bullish divergence while price made a lower low.
+- Higher timeframe structure remains bullish.
+- Volatility regime allows normal position sizing.
+- The trade passes the minimum expected value and risk/reward filters.
+```
+
+Also generate:
+
+* SHAP values
+* feature importance
+* top bullish reasons
+* top bearish reasons
+* top no-trade reasons
+* failed trade analysis
+* model uncertainty report
+
+Do not overstate explainability. Clearly mention uncertainty.
+
+---
+
+# 22. Dashboard
+
+Create a Colab-friendly dashboard.
+
+Use Plotly by default. Use Streamlit only if practical in Colab.
+
+Dashboard/report must show:
+
+* candlestick chart
+* FVG zones
+* order block zones
+* liquidity levels
+* sweep markers
+* BOS/CHOCH/MSS markers
+* CVD chart
+* volume/delta chart
+* model signal markers
+* trade entries/exits
+* equity curve
+* drawdown curve
+* feature importance
+* regime performance
+* setup performance
+* latest prediction report
+
+If Streamlit is inconvenient in Colab, generate interactive Plotly HTML reports saved to Drive.
+
+---
+
+# 23. Long Training and Checkpointing
+
+Because training may take a long time in Colab:
+
+* Save intermediate datasets
+* Save feature matrices
+* Save labels
+* Save train/validation/test splits
+* Save model checkpoints
+* Save Optuna studies to SQLite in Drive
+* Save trained models with joblib or torch checkpoints
+* Save logs after every major step
+* Allow resume training
+* Allow skipping completed folds
+* Avoid keeping huge raw dataframes in memory unnecessarily
+* Use Parquet and chunking
+* Use garbage collection where needed
+
+For Optuna:
+
+* Use persistent SQLite storage under Drive
+* Allow study resume
+* Save best parameters per fold
+
+For PyTorch:
+
+* Save checkpoint every N epochs
+* Save best validation checkpoint
+* Resume from checkpoint if available
+
+---
+
+# 24. Memory and Performance Constraints in Colab
+
+Optimize for Colab:
+
+* Use Parquet
+* Use Polars or pandas depending on memory
+* Use chunked processing for trades
+* Downcast numeric types safely
+* Cache expensive calculations
+* Avoid loading all raw trades at once
+* Use vectorized operations where possible
+* Use numba for slow loops if needed
+* Allow smaller debug mode
+* Allow full research mode
+
+Config must include:
+
+```yaml
+debug_mode: true
+full_mode: false
+max_rows_debug: 200000
+force_rebuild: false
+```
+
+Allow switching to:
+
+```yaml
+debug_mode: false
+full_mode: true
+```
+
+---
+
+# 25. Configuration System
+
+Use YAML config files for everything.
+
+Do not hardcode:
+
+* symbol
+* exchange
+* market type
+* timeframes
+* date ranges
+* fees
+* slippage
+* funding assumptions
+* risk settings
+* feature toggles
+* label horizons
+* barrier multipliers
+* model parameters
+* walk-forward windows
+* final test size
+* debug/full mode
+* GitHub repository URL
+
+Example data config:
+
+```yaml
+symbol: BTCUSDT
+exchange: Binance
+market_type: USD-M Futures
+fallback_market_type: Spot
+project_root: /content/drive/MyDrive/btcusdt_quant_research
+lower_timeframe: 1m
+execution_timeframe: 5m
+secondary_execution_timeframe: 15m
+higher_timeframes:
+  - 1h
+  - 4h
+  - 1d
+start_date: "2019-01-01"
+end_date: null
+debug_mode: true
+full_mode: false
+force_rebuild: false
+```
+
+Example GitHub config:
+
+```yaml
+repository_url: "https://github.com/umutergul74/TradeBot.git"
+branch: "main"
+push_enabled: true
+large_artifacts_in_git: false
+```
+
+---
+
+# 26. Testing Requirements
+
+Create tests or validation cells for:
+
+* data integrity
+* missing timestamps
+* duplicate rows
+* no future leakage
+* feature timestamp availability
+* safe multi-timeframe alignment
+* label correctness
+* backtest execution timing
+* cost calculation
+* position sizing
+* stop-loss/take-profit logic
+* checkpoint loading
+* GitHub secret scan before commit
+
+Even inside Colab, create simple test functions and run them in notebooks.
+
+---
+
+# 27. Research Reports
+
+Generate HTML or Markdown reports under Drive:
+
+```text
+reports/
+  data_quality/
+  feature_analysis/
+  labeling/
+  validation/
+  backtests/
+  explainability/
+  dashboards/
+  github/
+```
+
+Required reports:
+
+1. Data quality report
+2. Feature coverage report
+3. Feature correlation report
+4. Feature stability report
+5. Label distribution report
+6. Model validation report
+7. Walk-forward report
+8. Backtest report
+9. Regime performance report
+10. Setup performance report
+11. Cost impact report
+12. Overfitting and risk report
+13. GitHub publishing report
+14. Final recommendation report
+
+---
+
+# 28. Overfitting and Robustness
+
+The system must actively try to falsify itself.
+
+Implement:
+
+* random label sanity check
+* shuffled feature sanity check
+* random strategy baseline
+* transaction-cost stress test
+* slippage stress test
+* funding stress test
+* walk-forward degradation analysis
+* Monte Carlo trade sequence reshuffling
+* parameter sensitivity
+* feature ablation
+* time-period robustness
+* bull market / bear market / chop market breakdown
+* long-only vs short-only performance
+* train-test distribution drift report
+
+If the strategy only works before costs, say so clearly.
+
+If the strategy only works in one narrow period, say so clearly.
+
+If the final test fails, report failure honestly.
+
+---
+
+# 29. GitHub Repository Delivery Requirement
+
+After the Colab/Google Drive project is created, validated, documented, and made reproducible, prepare the complete source project for GitHub and push it to:
+
+```text
+https://github.com/umutergul74/TradeBot.git
+```
+
+The GitHub repository must contain the professional, reproducible, industry-standard version of the project.
+
+## GitHub Repository Must Include
+
+* Colab notebooks
+* Source code under `src/`
+* Config templates
+* `SKILL.md`
+* `README.md`
+* `requirements.txt`
+* `pyproject.toml` if useful
+* `.gitignore`
+* `.env.example`
+* GitHub Actions workflow if useful
+* Documentation
+* Tests / validation scripts
+* Example commands
+* Lightweight sample outputs only if safe and small
+
+## GitHub Repository Must Not Include
+
+* Raw downloaded Binance data
+* Large processed datasets
+* Large feature stores
+* Large trained models
+* Large checkpoints
+* Optuna SQLite databases
+* API keys
+* GitHub tokens
+* Binance credentials
+* Google credentials
+* `.env` files
+* Personal logs
+* Private reports
+* Any file containing secrets
+
+Large artifacts should remain in Google Drive by default, or optionally be managed with DVC/Git LFS only if explicitly requested.
+
+## Required `.gitignore`
+
+Create a professional `.gitignore` that excludes:
+
+```text
+.env
+.env.*
+*.key
+*.pem
+*.sqlite
+*.db
+__pycache__/
+.ipynb_checkpoints/
+.cache/
+logs/
+data/raw/
+data/processed/
+data/feature_store/
+data/labels/
+data/events/
+models/checkpoints/
+models/trained_models/
+models/calibration/
+models/feature_importance/
+reports/**/*.html
+reports/**/*.png
+reports/**/*.csv
+reports/**/*.json
+*.parquet
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.onnx
+```
+
+Use `.gitkeep` files to preserve required empty folders.
+
+## GitHub Publishing Notebook
+
+Create:
+
+```text
+13_github_publish.ipynb
+```
+
+This notebook must:
+
+1. Mount Google Drive
+2. Navigate to `PROJECT_ROOT`
+3. Verify that no secrets are present
+4. Verify `.gitignore`
+5. Verify large artifacts are excluded
+6. Clear notebook outputs if necessary
+7. Initialize Git if needed
+8. Add the remote repository:
+
+   ```bash
+   git remote add origin https://github.com/umutergul74/TradeBot.git
+   ```
+9. Create or use the `main` branch
+10. Commit the clean project files
+11. Push to GitHub safely
+12. Generate a GitHub publishing report
+
+Because Colab authentication is sensitive, do not hardcode GitHub tokens.
+
+Use one safe option:
+
+Option A — User-provided token via secure Colab input:
+
+```python
+import getpass
+GITHUB_TOKEN = getpass.getpass("Enter GitHub token: ")
+```
+
+Option B — User manually runs the final push command.
+
+If authentication is unavailable, prepare the repository and print the exact final commands the user must run manually.
+
+The final Git workflow should be similar to:
+
+```bash
+cd /content/drive/MyDrive/btcusdt_quant_research
+
+git init
+git branch -M main
+git remote remove origin 2>/dev/null || true
+git remote add origin https://github.com/umutergul74/TradeBot.git
+
+git status
+git add .
+git commit -m "Initial Colab quant research framework"
+git push -u origin main
+```
+
+If using token authentication inside Colab, use a secure temporary remote URL and remove it immediately after push:
+
+```bash
+git remote set-url origin https://<TOKEN>@github.com/umutergul74/TradeBot.git
+git push -u origin main
+git remote set-url origin https://github.com/umutergul74/TradeBot.git
+```
+
+Before pushing, run a secret scan checklist:
+
+* Search for `api_key`
+* Search for `secret`
+* Search for `token`
+* Search for `password`
+* Search for `.env`
+* Search notebook outputs for credentials
+* Verify no large data/model files are staged
+* Clear notebook outputs if needed
+
+The final response after pushing must include:
+
+* Commit hash
+* Branch name
+* Repository URL
+* List of pushed files/folders
+* List of intentionally excluded files/folders
+* Any manual steps still required
+
+If push fails due to authentication or permission issues, do not retry with unsafe methods. Report the failure clearly and provide safe manual commands.
+
+---
+
+# 30. Final Output Expectations
+
+By the end of the project, I want:
+
+1. Fully runnable Colab notebooks
+2. Google Drive folder structure
+3. `SKILL.md`
+4. BTCUSDT data pipeline
+5. Processed multi-timeframe datasets
+6. Advanced ICT/SMC/order-flow feature store
+7. Leakage-safe labels
+8. Baseline models
+9. ML models
+10. Walk-forward validation
+11. Realistic backtest
+12. Risk management engine
+13. Explainable trade journal
+14. Interactive charts/reports
+15. Saved models and checkpoints in Drive
+16. Clear final report on whether any edge exists
+17. Clean GitHub repository pushed to:
+
+    ```text
+    https://github.com/umutergul74/TradeBot.git
+    ```
+
+---
+
+# 31. Development Order
+
+Work in this exact order:
+
+## Phase 1: Design
+
+First, provide:
+
+* overall architecture
+* Colab notebook list
+* Drive folder structure
+* data sources
+* feature families
+* labeling plan
+* validation plan
+* backtest assumptions
+* risk management plan
+* GitHub delivery plan
+* expected limitations
+
+## Phase 2: Colab Setup
+
+Create `00_colab_setup.ipynb` content:
+
+* Drive mount
+* package installation
+* folder creation
+* `SKILL.md`
+* config files
+* source module skeletons
+* `.gitignore`
+* `.env.example`
+* initial `README.md`
+* environment checks
+
+## Phase 3: Data Pipeline
+
+Create data download and cleaning notebooks.
+
+Start with OHLCV first.
+
+Then add futures metrics.
+
+Then add trades/aggTrades.
+
+Make the pipeline incremental and restart-safe.
+
+## Phase 4: Feature Engineering
+
+Implement feature families one by one.
+
+After each family:
+
+* save features
+* validate no leakage
+* plot examples
+* write feature metadata
+* report missingness and distributions
+
+## Phase 5: Labeling
+
+Implement:
+
+* forward returns
+* triple barrier
+* event-based labels
+* meta-labeling
+
+Analyze label balance and label quality.
+
+## Phase 6: Modeling
+
+Start with baselines.
+
+Then train tabular ML models.
+
+Only then add optional sequence/deep learning models.
+
+## Phase 7: Validation
+
+Implement walk-forward validation.
+
+Generate fold-level and aggregate reports.
+
+## Phase 8: Backtesting
+
+Backtest only out-of-sample predictions.
+
+Include fees, slippage, funding, and risk management.
+
+## Phase 9: Explainability
+
+Generate trade journal and explanation reports.
+
+## Phase 10: Dashboard
+
+Generate interactive Plotly reports and optional dashboard.
+
+## Phase 11: Final Analysis
+
+Produce a brutally honest final report:
+
+* what worked
+* what failed
+* where edge appears
+* where edge disappears
+* which features matter
+* whether performance survives costs
+* whether performance survives walk-forward validation
+* what to improve next
+
+## Phase 12: GitHub Publishing
+
+Create and run `13_github_publish.ipynb`.
+
+Prepare the clean repository and push to:
+
+```text
+https://github.com/umutergul74/TradeBot.git
+```
+
+If authentication is unavailable, prepare everything and provide safe manual commands.
+
+---
+
+# 32. First Response Format
+
+In your first response, do not jump directly into random code.
+
+First give me:
+
+1. A concise technical summary
+2. The exact Colab/Drive architecture
+3. Notebook sequence
+4. Data plan
+5. Feature plan
+6. Labeling plan
+7. Modeling plan
+8. Validation and backtest plan
+9. GitHub delivery plan
+10. Major risks
+11. Then start implementing Phase 1 and Phase 2
+
+After that, generate the actual Colab notebook code cells.
+
+---
+
+# 33. Default Assumptions
+
+Use these defaults unless I explicitly change them:
+
+```yaml
+symbol: BTCUSDT
+exchange: Binance
+market_type: USD-M Futures
+fallback_market_type: Spot
+execution_timeframe: 5m
+secondary_execution_timeframe: 15m
+lower_timeframe: 1m
+higher_timeframes:
+  - 1h
+  - 4h
+  - 1d
+project_root: /content/drive/MyDrive/btcusdt_quant_research
+mode: research_backtest_only
+live_trading: false
+risk_per_trade: 0.005
+max_risk_per_trade: 0.01
+max_leverage: 1
+fees_enabled: true
+slippage_enabled: true
+funding_enabled: true
+walk_forward_validation: true
+final_test_set: untouched
+github_repository_url: https://github.com/umutergul74/TradeBot.git
+github_branch: main
+large_artifacts_in_git: false
+debug_mode: true
+full_mode: false
+force_rebuild: false
+```
+
+Now design and build this project in the most professional, robust, leakage-safe, restart-safe, Colab-compatible, GitHub-ready way possible.

@@ -1,0 +1,11 @@
+forward_returns:
+  horizons: [3, 5, 10, 20, 50]
+  volatility_adjust: true
+  quantile: 0.67
+triple_barrier:
+  tp_mult: 2.0
+  sl_mult: 1.0
+  time_barrier: 24
+  atr_period: 14
+meta_labeling:
+  enabled: true

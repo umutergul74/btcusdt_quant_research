@@ -1,0 +1,5 @@
+github:
+  repository_url: https://github.com/umutergul74/TradeBot.git
+  branch: main
+  push_enabled: true
+  large_artifacts_in_git: false

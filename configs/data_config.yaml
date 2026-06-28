@@ -1,0 +1,18 @@
+symbol: BTCUSDT
+exchange: binance
+market_type: swap
+fallback_market_type: spot
+project_root: /content/drive/MyDrive/btcusdt_quant_research
+lower_timeframe: 1m
+execution_timeframe: 5m
+secondary_execution_timeframe: 15m
+higher_timeframes:
+  - 1h
+  - 4h
+  - 1d
+start_date: "2020-01-01"
+end_date: null
+debug_mode: true
+full_mode: false
+max_rows_debug: 200000
+force_rebuild: false

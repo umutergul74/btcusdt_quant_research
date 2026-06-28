@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tradebot"
+version = "0.1.0"
+description = "Professional BTCUSDT quantitative trading research and machine learning system"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "pyarrow",
+    "fastparquet",
+    "polars",
+    "numba",
+    "tqdm",
+    "pyyaml",
+    "requests",
+    "ccxt",
+    "plotly",
+    "vectorbt",
+    "optuna",
+    "lightgbm",
+    "xgboost",
+    "catboost",
+    "shap",
+    "joblib",
+    "ta"
+]

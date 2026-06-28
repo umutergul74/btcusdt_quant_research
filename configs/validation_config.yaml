@@ -1,0 +1,11 @@
+validation:
+  train_ratio: 0.6
+  val_ratio: 0.2
+  test_ratio: 0.2
+  purged_cv:
+    n_splits: 5
+    embargo_pct: 0.01
+  walk_forward:
+    train_size_candles: 52560
+    val_size_candles: 8640
+    test_size_candles: 8640

@@ -1,0 +1,22 @@
+optuna:
+  n_trials: 50
+  storage: sqlite:////content/drive/MyDrive/btcusdt_quant_research/models/checkpoints/optuna_study.db
+  study_name: btcusdt_lgbm_tuning
+models:
+  lightgbm:
+    objective: binary
+    metric: binary_logloss
+    boosting_type: gbdt
+    n_estimators: 100
+    learning_rate: 0.05
+    random_state: 42
+  xgboost:
+    eval_metric: logloss
+    n_estimators: 100
+    learning_rate: 0.05
+    random_state: 42
+  catboost:
+    loss_function: Logloss
+    iterations: 100
+    learning_rate: 0.05
+    random_state: 42
