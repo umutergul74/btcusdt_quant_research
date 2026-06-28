@@ -1,5 +1,5 @@
 import numpy as np
-from typing import List, Any
+from typing import List, Any, Optional
 
 class CalibratedEnsemble:
     """Ensemble of multiple calibrated classifiers."""
