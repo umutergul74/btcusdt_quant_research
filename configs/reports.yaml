@@ -1,0 +1,6 @@
+include_html_plots: true
+include_large_predictions: false
+max_bundle_mb: 25
+report_consistency_fail_closed: true
+canonical_next_action_default: continue_phase1_model_improvement
+

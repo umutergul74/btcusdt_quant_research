@@ -1,0 +1,7 @@
+primary_label: triple_barrier
+horizon_bars: 12
+forward_return_threshold: 0.0015
+no_trade_threshold: 0.0005
+volatility_window: 48
+cost_proxy_bps: 4.0
+

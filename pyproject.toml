@@ -1,33 +1,18 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tradebot"
+name = "btcusdt-quant-research"
 version = "0.1.0"
-description = "Professional BTCUSDT quantitative trading research and machine learning system"
-readme = "README.md"
-requires-python = ">=3.8"
-dependencies = [
-    "pandas",
-    "numpy",
-    "scipy",
-    "scikit-learn",
-    "pyarrow",
-    "fastparquet",
-    "polars",
-    "numba",
-    "tqdm",
-    "pyyaml",
-    "requests",
-    "ccxt",
-    "plotly",
-    "vectorbt",
-    "optuna",
-    "lightgbm",
-    "xgboost",
-    "catboost",
-    "shap",
-    "joblib",
-    "ta"
-]
+description = "Phase 1 model-first BTCUSDT quant research framework"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+

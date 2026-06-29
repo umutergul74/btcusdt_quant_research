@@ -1,0 +1,19 @@
+feature_groups:
+  market_structure: true
+  ict_smc: true
+  fvg: true
+  order_blocks: true
+  liquidity: true
+  candle_quality: true
+  order_flow: true
+  volatility: true
+  futures_pressure: true
+  sessions: true
+  classical_context: true
+feature_store_version: v1
+require_feature_available_time: true
+run_leakage_checks: true
+remove_high_missing_features: true
+max_missing_ratio: 0.40
+correlation_report: true
+

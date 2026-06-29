@@ -1,0 +1,22 @@
+models:
+  baselines: true
+  logistic_regression: true
+  hist_gradient_boosting: true
+  random_forest: true
+  extra_trees: true
+  lightgbm: true
+  xgboost: true
+  catboost: true
+  calibrated_ensemble: true
+  sequence_models_later: false
+selection_metric: validation_score_composite
+optuna:
+  enabled: true
+  storage: sqlite_drive
+  n_trials_debug: 20
+  n_trials_full: 200
+  tune_inside_folds_only: true
+calibration:
+  enabled: true
+  methods: [platt, isotonic]
+

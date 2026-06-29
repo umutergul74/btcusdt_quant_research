@@ -1,0 +1,8 @@
+active_candidate_id: null
+source_run_id: null
+manifest_path: null
+expected_manifest_hash: null
+activation_state: inactive
+activation_reason: no_candidate_frozen
+anchor_data_end: null
+

@@ -1,0 +1,15 @@
+anchor_data_end: null
+latest_available_data_end: null
+new_labeled_rows: 0
+min_rows: 1000
+min_rows_remaining: 1000
+preferred_rows: 3000
+preferred_rows_remaining: 3000
+window_data_ready: false
+ready_for_evaluation: false
+candidate_activation_valid: false
+evaluation_completed: false
+primary_candidate_passed: false
+promotion_allowed: false
+promotion_block_reason: no_frozen_candidate_or_future_oos_not_evaluated
+

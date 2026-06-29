@@ -1,0 +1,18 @@
+experiment_name: debug_baseline
+run_id: debug_local
+mode: debug
+stages:
+  - data_ohlcv
+  - data_quality
+  - build_features
+  - build_labels
+  - build_research_dataset
+  - train_baselines
+  - train_tabular
+  - calibrate_models
+  - validate_walk_forward
+  - run_falsification
+  - run_drift_checks
+  - evaluate_phase1_gate
+  - package_phase1_performance
+

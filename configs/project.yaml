@@ -1,0 +1,12 @@
+project_name: btcusdt_quant_research
+project_root: /content/drive/MyDrive/btcusdt_quant_research
+mode: phase1_model_research
+live_trading: false
+phase2_enabled: false
+debug_mode: true
+full_mode: false
+force_rebuild: false
+max_rows_debug: 200000
+random_seed: 42
+timezone: UTC
+

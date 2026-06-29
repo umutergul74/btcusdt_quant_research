@@ -1,0 +1,3 @@
+experiment_name: model_candidate_template
+candidate_freeze_policy:
+  freeze_only_if_historical_gate_green: true

@@ -1,0 +1,20 @@
+symbol: BTCUSDT
+exchange: Binance
+market_type: USD-M Futures
+fallback_market_type: Spot
+start_date: "2019-01-01"
+end_date: null
+lower_timeframe: 1m
+execution_timeframe: 5m
+secondary_execution_timeframe: 15m
+higher_timeframes: [1h, 4h, 1d]
+all_timeframes: [1m, 3m, 5m, 15m, 30m, 1h, 4h, 1d]
+incremental_download: true
+save_format: parquet
+rate_limit_safe: true
+include_futures_metrics: true
+include_aggtrades: false
+include_orderbook: false
+optional_external_context: false
+synthetic_debug_rows: 1500
+

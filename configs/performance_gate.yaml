@@ -1,0 +1,22 @@
+phase1_gate:
+  require_no_leakage: true
+  require_data_quality_pass: true
+  require_label_quality_pass: true
+  require_train_only_preprocessing: true
+  require_walk_forward: true
+  require_calibration_report: true
+  require_falsification_pass: true
+  require_drift_report: true
+  require_baseline_comparison: true
+  require_confidence_decile_monotonicity_check: true
+  require_out_of_sample_predictions: true
+  allow_phase2_if_gate_status: GREEN
+  manual_override_allowed: false
+minimum_evidence:
+  min_walk_forward_folds_debug: 3
+  min_walk_forward_folds_full: 5
+  min_positive_folds_ratio: 0.60
+  min_baseline_improvement_ratio: 0.02
+  max_calibration_ece: 0.08
+  max_brier_vs_baseline_ratio: 0.98
+

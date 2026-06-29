@@ -1,0 +1,7 @@
+repository_url: https://github.com/umutergul74/btcusdt_quant_research.git
+branch: main
+strip_notebook_outputs_before_push: true
+secret_scan_required: true
+large_artifact_scan_required: true
+allow_drive_artifacts_in_git: false
+

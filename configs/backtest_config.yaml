@@ -1,6 +1,0 @@
-backtest:
-  initial_capital: 10000.0
-  fees: 0.0005
-  slippage: 0.0002
-  funding_rate_default: 0.0001
-  execution_delay_candles: 1

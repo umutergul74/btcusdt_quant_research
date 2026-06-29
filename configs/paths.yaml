@@ -1,0 +1,12 @@
+project_root: /content/drive/MyDrive/btcusdt_quant_research
+source_dir: src
+data_dir: data
+raw_data_dir: data/raw
+processed_data_dir: data/processed
+feature_store_dir: data/feature_store
+label_dir: data/labels
+model_dir: models
+experiment_report_dir: reports/experiments
+log_dir: logs
+cache_dir: cache
+

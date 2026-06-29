@@ -1,0 +1,12 @@
+walk_forward:
+  enabled: true
+  min_folds_debug: 3
+  min_folds_full: 5
+  train_fraction_initial: 0.50
+  validation_fraction: 0.15
+  embargo_bars: 12
+final_test:
+  enabled: true
+  untouched_until_gate: true
+  fraction: 0.15
+
